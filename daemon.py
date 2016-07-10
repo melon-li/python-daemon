@@ -133,9 +133,7 @@ class Daemon(object):
         Start the daemon
         """
 
-        if self.is_running(True):
-            print "Process already has been running"
-            return
+        if self.is_running():return
 
         if self.verbose >= 1:
             print "Starting..."
@@ -149,9 +147,7 @@ class Daemon(object):
         Stop the daemon
         """
 
-        if not self.is_running(True):
-            print "Process has not been started"
-            return
+        if not self.is_running():return
 
         if self.verbose >= 1:
             print "Stopping..."
@@ -194,10 +190,10 @@ class Daemon(object):
             pid = None
         return pid
 
-    def is_running(self, flag=False):
+    def is_running(self):
         pid = self.get_pid()
 
-        if flag:
+        if self.verbose < 1:
             return pid and os.path.exists('/proc/%d' % pid)
 
         if pid is None:
